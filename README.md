@@ -50,38 +50,55 @@ Move the pad → Prompt changes → LLM behavior changes. **No retraining. Pure 
 
 ## 🚀 Quick Start
 
-### 1. Start the Backend
+### One-Command Start (Recommended)
 
 ```bash
 cd /Users/ivanculo/Desktop/Projects/Hackathon
 
-# Activate virtual environment
+# Make sure you're in the virtual environment
 source .venv/bin/activate
 
-# Start FastAPI server
+# Run the start script (starts backend + frontend + opens browser)
+./start.sh
+```
+
+This will:
+- ✅ Clean up any existing processes on port 8000
+- ✅ Start the backend server on **http://localhost:8000**
+- ✅ Start a frontend server on **http://localhost:8080**
+- ✅ Automatically open **http://localhost:8080/demo.html** in your browser
+
+**Press Ctrl+C** to stop all servers.
+
+### Manual Start (Alternative)
+
+If you prefer to run things separately:
+
+**1. Start the Backend**
+
+```bash
+cd /Users/ivanculo/Desktop/Projects/Hackathon
+source .venv/bin/activate
 python backend/main.py
 ```
 
-Server starts on: **http://localhost:8000**
-
+Server starts on: **http://localhost:8000**  
 API Docs: **http://localhost:8000/docs**
 
-### 2. Open the Frontend
+**2. Start the Frontend**
 
-**Option A: Simple HTML (Recommended for Demo)**
+In a new terminal:
 
 ```bash
-# Open in browser
-open demo.html
-
-# OR use Python HTTP server
-python -m http.server 3000
-# Then visit: http://localhost:3000/demo.html
+cd /Users/ivanculo/Desktop/Projects/Hackathon
+python3 -m http.server 8080
 ```
 
-**Option B: Integrate into Next.js/React project**
+Then open: **http://localhost:8080/demo.html**
 
-Copy `agent-synapse-connected.jsx` into your project and import it.
+### Integrate into Your Project
+
+Copy `agent-synapse-connected.jsx` into your Next.js/React project and import it.
 
 ---
 
@@ -350,9 +367,9 @@ A: "Out of scope for MVP. This proves linguistic steering works first. Memory is
 
 ## 🐛 Troubleshooting
 
-### Backend won't start
+### Backend won't start (Port 8000 in use)
 ```bash
-# Check if port 8000 is in use
+# The start.sh script handles this automatically, but if running manually:
 lsof -i:8000
 
 # Kill existing process
@@ -361,6 +378,12 @@ lsof -ti:8000 | xargs kill -9
 # Restart
 python backend/main.py
 ```
+
+### Frontend shows blank page
+- Check browser console for errors (F12)
+- Make sure backend is running on `http://localhost:8000`
+- Verify the JSX file loads correctly (check Network tab)
+- Try hard refresh (Cmd+Shift+R on Mac, Ctrl+Shift+R on Windows)
 
 ### CORS errors in browser
 - Make sure backend is running on `localhost:8000`
@@ -441,7 +464,7 @@ python backend/main.py
 
 ## 🚀 Next Steps
 
-1. **Run the demo**: `python backend/main.py` → `open demo.html`
+1. **Run the demo**: `./start.sh` (or manually: `python backend/main.py` + `python3 -m http.server 8080`)
 2. **Test linguistic steering**: Execute at (0,0) vs (1,1)
 3. **Try GOD MODE**: Generate agent team from natural language
 4. **Check Context tab**: See transparent prompt updates
