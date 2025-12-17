@@ -1,5 +1,3 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-
 // Backend API URL
 const API_BASE_URL = 'http://localhost:8000';
 
@@ -8,7 +6,9 @@ const initialAgents = [
   { id: 'agent-1', type: 'agent', name: 'Analyst', status: 'idle', x: 400, y: 200, zone: null, creativity: 0.5, density: 0.5 }
 ];
 
-export default function AgentSynapse() {
+const { useState, useRef, useCallback, useEffect } = React;
+
+function AgentSynapse() {
   // UI State
   const [agents, setAgents] = useState(initialAgents);
   const [artifacts, setArtifacts] = useState([]);
